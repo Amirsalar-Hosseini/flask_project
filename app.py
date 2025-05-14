@@ -20,6 +20,9 @@ class User(db.Model):
     username = mapped_column(String(50), unique=True)
     email = mapped_column(String(100), nullable=False)
 
+    def __repr__(self):
+        return f"username : {self.username} with email  : {self.email}"
+
 
 with app.app_context():
     db.create_all()
@@ -36,11 +39,20 @@ def about_page():
 @app.route('/signup', methods=['GET', 'POST'])
 def create_user():
     if request.method == 'GET':
-        cu = User(username='amir', email='amir@amir.com')
+        cu = User(username='salar', email='salar@salar.com')
         db.session.add(cu)
         db.session.commit()
         return render_template('signup.html')
 
+@app.route('/all_users')
+def show_all_user():
+    users = db.session.execute(db.select(User).order_by(User.id)).scalars()
+    return render_template('all_users.html', users=users)
+
+@app.route('/specific_user')
+def show_specific_user():
+    user = db.session.execute(db.select(User).where(User.username == 'salar')).scalar()
+    return render_template('specific_user.html', user=user)
 
 if __name__ == '__main__':
     app.run(debug=True)
