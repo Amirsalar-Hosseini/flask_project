@@ -2,7 +2,7 @@
 {% block title %}Users{% endblock %}
 {%block content%}
 {% for user in users %}
-{{ user }}
+<a href="{{ url_for('show_specific_user', username=user.username) }}">{{ user }}</a>
 <br><br>
 {% endfor %}
 {% endblock %}

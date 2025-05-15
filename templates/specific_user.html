@@ -2,4 +2,6 @@
 {% block title %}User{% endblock %}
 {%block content%}
 {{ user }}
+<br>
+<a href="{{ url_for('delete_specific_user', user_id=user.id) }}" class="btn btn-danger">Delete</a>
 {% endblock %}
