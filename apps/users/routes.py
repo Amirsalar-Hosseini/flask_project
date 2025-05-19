@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for
+from flask import Blueprint, render_template, redirect, url_for, flash
 from apps.users.forms import RegisterForm, LoginForm
 from apps.users.models import User
 from apps.extensions import hashing, db
@@ -15,6 +15,7 @@ def register():
         user = User(username=form.username.data, email=form.email.data, password=hashed_password)
         db.session.add(user)
         db.session.commit()
+        flash('user registered successfully', 'success')
         return redirect(url_for('users.login'))
     return render_template('users/register.html', form=form)
 @blueprint.route('/login')
