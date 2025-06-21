@@ -1,7 +1,6 @@
 import flask
-from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_user
-
+from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask_login import login_user, current_user, logout_user, login_required
 from apps.users.forms import RegisterForm, LoginForm
 from apps.users.models import User
 from apps.extensions import hashing, db
@@ -23,11 +22,22 @@ def register():
     return render_template('users/register.html', form=form)
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
-        if user and hashing.check_value(user.password, form.password.data):
-            login_user(user, remember=form.remember.data)
-            flask.flash('login successful', 'success')
-            return redirect(url_for('home.home'))
-    return render_template('users/login.html', form=form)
+    if current_user.is_authenticated:
+        return redirect(url_for('home.home'))
+    else:
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = db.session.execute(db.select(User).where(User.email == form.email.data)).scalar()
+            if user and hashing.check_value(user.password, form.password.data):
+                login_user(user, remember=form.remember.data)
+                flask.flash('login successful', 'success')
+                next_page = request.args.get('next')
+                return redirect(next_page if next_page else url_for('home.home'))
+        return render_template('users/login.html', form=form)
+
+@blueprint.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flask.flash('logout successful', 'success')
+    return redirect(url_for('users.login'))

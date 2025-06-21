@@ -8,7 +8,7 @@ from apps.extensions import db, login_manager
 
 @login_manager.user_loader
 def user_loader(user_id):
-    return db.session.execute(db.select(User).where(User.id == user_id))
+    return db.session.execute(db.select(User).where(User.id == user_id)).scalar()
 
 
 

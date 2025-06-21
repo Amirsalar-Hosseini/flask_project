@@ -28,3 +28,6 @@ with app.app_context(): db.create_all()
 hashing.init_app(app)
 
 login_manager.init_app(app)
+login_manager.login_view = 'users.login'
+login_manager.login_message = 'dont do that right now ;|'
+login_manager.login_message_category = 'warning'
