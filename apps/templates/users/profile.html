@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Profile{% endblock %}
+
+
+{% block content %}
+    <h3>{{ current_user.username }}</h3>
+    <b>{{ current_user.email }}</b>
+    <hr>
+
+    {% include 'form-errors.html' %}
+    <form action="" method="post" novalidate>
+    {{ form.csrf_token }}
+    {{ form.username.label(class='form-control-label') }} {{ form.username(class='form-control') }}
+    {{ form.email.label(class='form-control-label') }} {{ form.email(class='form-control') }}
+    {{ form.new_password.label(class='form-control-label') }} {{ form.new_password(class='form-control') }}
+    {{ form.confirm_password.label(class='form-control-label') }} {{ form.confirm_password(class='form-control') }}
+    {{ form.submit(class='btn btn-info') }}
+
+    </form>
+
+{% endblock %}
