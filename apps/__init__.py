@@ -23,6 +23,7 @@ app.config.from_object('config.DevelopmentConfig')
 
 db.init_app(app)
 from apps.users.models import User
+from apps.posts.models import Post
 with app.app_context(): db.create_all()
 
 hashing.init_app(app)

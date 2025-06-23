@@ -50,7 +50,7 @@ def profile():
     form = UpdateProfileForm()
     if form.validate_on_submit():
         current_user.username = form.username.data
-        current_user.email = form.email.data
+        current_user.email = form.email.data21
         if form.new_password.data:
             current_user.password = hashing.hash_value(form.new_password.data)
         db.session.commit()
