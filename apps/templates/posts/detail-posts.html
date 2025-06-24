@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+
+{% block title %}{{ post.title[:10] }} ...{% endblock %}
+
+
+{% block content %}
+
+
+   <h1>{{ post.title }}</h1>
+    <h4>{{ post.author.username|upper }}</h4>
+   <b>{{ post.created_at.strftime('%Y-%m-%d') }}</b>
+    <br><br>
+    <hr>
+    <p>{{ post.body }}</p>
+
+
+{% endblock %}

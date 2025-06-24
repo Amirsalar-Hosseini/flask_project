@@ -7,7 +7,14 @@
 {% block content %}
 
 
-    <h1>home page</h1>
+    <h1>hello {% if current_user.is_authenticated %}
+        {{ current_user.username }}
+    {% endif %} </h1>
+    <div class="card">
+        {% for post in posts %}
+            <a href="{{ url_for('posts.detail_post', post_id=post.id) }}" class="card-body">{{ post.title }}</a>
+        {% endfor %}
+    </div>
 
 
 {% endblock %}

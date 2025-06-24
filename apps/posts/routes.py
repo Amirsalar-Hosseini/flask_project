@@ -18,3 +18,14 @@ def create_post():
         flash('Your post has been created!', 'success')
         return redirect(url_for('users.profile'))
     return render_template('posts/create-post.html', form=form)
+
+
+@blueprint.route('/posts/detail/<int:post_id>', methods=['GET',])
+def detail_post(post_id):
+    post = db.session.execute(db.select(Post).where(Post.id==post_id)).scalar()
+    if not post:
+        flash('this post does not exist!', 'danger')
+        if current_user.is_authenticated:
+            return redirect(url_for('users.profile'))
+        return redirect(url_for('home.home'))
+    return render_template('posts/detail-posts.html', post=post)
