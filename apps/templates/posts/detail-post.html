@@ -10,6 +10,11 @@
    <h1>{{ post.title }}</h1>
     <h4>{{ post.author.username|upper }}</h4>
    <b>{{ post.created_at.strftime('%Y-%m-%d') }}</b>
+    <br>
+    {% if current_user == post.author %}
+    	<a href="{{ url_for('posts.delete_post', post_id=post.id) }}" class="btn btn-danger">Delete</a>
+    	<a href="{{ url_for('posts.update_post', post_id=post.id) }}" class="btn btn-info">Update</a>
+    {% endif %}
     <br><br>
     <hr>
     <p>{{ post.body }}</p>
