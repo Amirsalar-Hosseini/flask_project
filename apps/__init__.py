@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_migrate import Migrate
 from apps.posts.routes import blueprint as posts_blueprint
 from apps.users.routes import blueprint as users_blueprint
 from apps.home.routes import blueprint as home_blueprint
@@ -25,7 +26,7 @@ app.config.from_object('config.DevelopmentConfig')
 db.init_app(app)
 from apps.users.models import User
 from apps.posts.models import Post
-with app.app_context(): db.create_all()
+migrate = Migrate(app, db)
 
 hashing.init_app(app)
 
